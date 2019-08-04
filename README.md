@@ -8,6 +8,12 @@
   * Javascipt Babeljs
   * Svelte 3
 
+# Features:
+ * Account simple
+ * Message (not worked on)
+ * Chat (not worked on)
+ * Forum /  BillBoard Post (not worked on)
+ 
 # Information:
  To create simple post and message access system. By using the Svelte 3 to keep file size as possible.
 
