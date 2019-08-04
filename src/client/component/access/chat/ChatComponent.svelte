@@ -12,6 +12,8 @@
 
     let idcomponent = generateId(20);
     let elcontent;
+    let idchatmessages = generateId(20);
+    let elchatmessages;
     let chatmessage = "test";
 
     //const onUserNameUnsubscribe = onUserName.subscribe(value => {
@@ -26,11 +28,15 @@
         }
         //console.log("resize");
         let parent = elcontent.parentNode;
-        elcontent.style.height = parent.clientHeight - 60 + 'px';
+        //console.log(parent.clientHeight);
+        elchatmessages.style.height = parent.clientHeight - 44 - 22 - 22 + 'px';
+        elcontent.style.height = parent.clientHeight - 44 + 'px';
         elcontent.style.width = parent.clientWidth + 'px';
     }
     onMount(() => {
         elcontent = document.getElementById(idcomponent);
+        elchatmessages = document.getElementById(idchatmessages);
+
         resizediv();
 		window.addEventListener('resize', resizediv);
     });
@@ -83,7 +89,6 @@
     }
 
     function btnQueryGun(e){
-
         function qcallback(data,key){
             console.log(data,key)
         }
@@ -100,11 +105,13 @@
     .chatmessage{
         height:80%;
         width:100%;
+        background-color: black;
+        overflow: scroll;
     }
 </style>
 
 <div id="{idcomponent}" class="chatarea">
-    <div class="chatmessage">
+    <div id="{idchatmessages}" class="chatmessage">
     
     </div>
     <label>Chat</label> <input bind:value="{chatmessage}" on:keypress={handle_chatmessage} />

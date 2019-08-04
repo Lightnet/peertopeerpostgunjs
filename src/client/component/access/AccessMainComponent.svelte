@@ -26,9 +26,9 @@
     let bforgot = false;
     let navmenus = [];
     let accessview = AccountComponent;
-    //accessview = MessagesComponent;
+    accessview = MessagesComponent;
     //accessview = DatabaseComponent;
-    accessview = ChatComponent;
+    //accessview = ChatComponent;
 
     const LoginuUsub = onLogin.subscribe(value => {
         //console.log("login",value);

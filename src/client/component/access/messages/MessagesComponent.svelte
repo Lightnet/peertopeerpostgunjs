@@ -1,6 +1,12 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
     import { gun, onUserName } from '../../../mjs.js';
+    import { generateId } from '../../helper/generateid.js';
+
+    let idcomponent = generateId(20);
+    let elcontent;
+    let idchatmessages = generateId(20);
+    let elchatmessages;
 
     let messages=[];
     let contacts=[];
@@ -11,7 +17,7 @@
     let messagecontent="test";
     let selectitem="";
     let bfound=false;
-    let statussearch="Normal";
+    let statussearch="null";
     let chatboxheight=134;
     let chatmessageheight=136;
 
@@ -19,9 +25,26 @@
 		//console.log(value);
 		//username = value;
     //});
+    function resizediv(){
+		//console.log("resize");
+		if(elcontent == null){
+            return;
+        }
+        //console.log("resize");
+        let parent = elcontent.parentNode;
+        //console.log(parent.clientHeight);
+        elchatmessages.style.height = parent.clientHeight - 132 - 22 + 'px';
+        elcontent.style.height = parent.clientHeight - 44 + 'px';
+        elcontent.style.width = parent.clientWidth + 'px';
+    }
     
     onMount(()=>{
         UpdateContactList();
+        elcontent = document.getElementById(idcomponent);
+        elchatmessages = document.getElementById(idchatmessages);
+
+        resizediv();
+		window.addEventListener('resize', resizediv);
     })
 
     onDestroy(()=>{
@@ -32,6 +55,7 @@
         publickey=null;
         messagesubject=null;
         messagecontent=null;
+        window.removeEventListener('resize', resizediv);
     });
 
     function togglecontact(){
@@ -39,6 +63,13 @@
             bdisplaycontact = false;
         }else{
             bdisplaycontact = true;
+        }
+    }
+
+    function handle_chatinputkey(e){
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
+            sendprivatemessage();
         }
     }
     async function sendprivatemessage(){
@@ -191,7 +222,7 @@
             bfound = false;
             return;
         }else{
-            statussearch = 'Found! ' + who;
+            statussearch = who;
             bfound = true;
             publickey = pub;
             alias = who;
@@ -216,8 +247,8 @@
     }
 
 </style>
-<div>
-    <div id="chatmessagebox" class="chatmessage">
+<div id="{idcomponent}">
+    <div id="{idchatmessages}" class="chatmessage">
         <div id="messagebox" class="chatbox" style="background-color:#aaa;overflow-y: scroll;">
             Message(s):
             {#each messages as item}
@@ -243,24 +274,22 @@
                 <button on:click={addcontact}>Add</button>
                 <button on:click={removecontact}>Remove</button>
             {/if}
-        <label>Status:{statussearch}</label>
+        <label>Alias:{statussearch}</label>
 
         <table>
-            <tr>
-                <td>
-                    Content:
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <textarea bind:value={messagecontent}  /> 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button on:click={sendprivatemessage}>Send</button>
-                </td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td>
+                        Message:
+                    </td>
+                    <td>
+                        <input bind:value={messagecontent} on:keypress={handle_chatinputkey} /> 
+                    </td>
+                    <td>
+                        <button on:click={sendprivatemessage}>Send</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         
     </div>
