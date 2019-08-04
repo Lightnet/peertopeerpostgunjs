@@ -20,7 +20,7 @@
 
     ;USE(function(module){
       var noop = function(){}, u;
-
+      /*
       // We do this with a GUN adapter, we first listen to when a gun instance is created (and when its options change)
       
       Gun.on('opt', function(at){
@@ -44,9 +44,7 @@
         //return;
         to.next( msg);
       }
-      
-
-
+      */
     })(USE, './index');
     //})(USE, './index');
 

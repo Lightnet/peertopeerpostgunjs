@@ -28,8 +28,13 @@
 	}
 
     onMount(() => {
+		elementcontent = document.getElementById(idcomponent);
+
         if(config.usegunlocal == true){
-			gun = Gun('http://localhost:8080' + '/gun');
+			gun = Gun({
+				peers:['http://localhost:8080' + '/gun'],
+				localStorage: false
+			});
 			console.log("gun client storage");
 		}else{
 			if(window.location.hostname == 'localhost'){

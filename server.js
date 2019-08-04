@@ -17,6 +17,7 @@ const compression = require('compression');
 //const uuidv4 = require('uuid/v4');
 //const helmet  = require('helmet');
 const Gun = require('gun');
+//const Rad = require('gun/lib/radisk');
 //require('gun/sea');
 
 //if you did not config env it will null default
@@ -39,7 +40,7 @@ var gunconfig = {
     web:app.server //server
 };
 var gun = Gun(gunconfig);
-//console.log(gun);
+
 gun.on('hi', peer => {//peer connect
   //console.log('connect peer to',peer);
   console.log('peer connect!');

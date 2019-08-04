@@ -1,5 +1,5 @@
 <script>
-    import { onMount, afterUpdate, onDestroy, createEventDispatcher } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import { generateId } from '../../helper/generateid.js';
     import { gun } from '../../../mjs.js';
     import GunQueryComponent from "../gun/GunQueryComponent.svelte";
@@ -7,18 +7,9 @@
     //const dispatch = createEventDispatcher();
     let idcomponent = generateId(20);
 
-    //onMount(async () => {	
-    //});
-    
-    onMount(() => {
-        //console.log("mount")
-        //console.log("access?");
+    onMount(async () => {	
     });
-
-    //afterUpdate(() => {
-        //console.log("afterUpdate")
-    //});
-
+    
     onDestroy(() => {
        //console.log("onDestroy")
     });
@@ -34,7 +25,6 @@
         //gun.get('#').once(function(data, key){//none
             //console.log(data,key);
         //});
-
 
         //gun.get('~').once(function(data, key){//none
             //console.log(data,key);
@@ -93,9 +83,9 @@
 
 </style>
 <div id="{idcomponent}">
+    <!--
     <button on:click={btnTest}>Test</button>
-
     <button on:click={btntestg01}>test1</button>
-
+    -->
     <GunQueryComponent></GunQueryComponent>
 </div>

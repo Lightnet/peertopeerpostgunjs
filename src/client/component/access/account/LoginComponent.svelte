@@ -8,7 +8,7 @@
     let idcomponent = generateId(20);
     let loginid = "test";
     let password = "test";
-    loginid="beta",password="beta";
+    //loginid="beta",password="beta";
     let showModal = false;
     let message = "";
 
@@ -41,10 +41,10 @@
             console.log("empty");
             return;
         }
-        console.log(gun);
+        //console.log(gun);
         let user = gun.user();
         user.auth(loginid, password,(ack)=>{
-            console.log(ack);
+            //console.log(ack);
             if(ack.err){
                 console.log("fail!");
                 message = ack.err;
@@ -53,7 +53,7 @@
                 //self.$parent.$emit('view','index');
                 //console.log("do something");
                 //console.log(ack);
-                console.log(ack.sea);
+                //console.log(ack.sea);
                 //console.log(ack.put);
                 setUser(ack.put);
                 setSea(ack.sea);

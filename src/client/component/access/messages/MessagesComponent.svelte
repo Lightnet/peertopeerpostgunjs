@@ -175,7 +175,6 @@
         user.get('contact').get(alias).put('null');//null contact list match id
         UpdateContactList();
     }
-
     async function checkalias(event){
         //console.log("typing...");
         //console.log(event.target.value);
@@ -205,10 +204,10 @@
 
 <style>
     .chatmessage{
-        position: fixed;
+        /*position: fixed;*/
         width:100%;
         height:200px;
-        top:250px;
+        /*top:250px;*/
     }
 
     .chatbox{
@@ -217,51 +216,52 @@
     }
 
 </style>
-
-<div id="chatmessagebox" class="chatmessage">
-    <div id="messagebox" class="chatbox" style="background-color:#aaa;overflow-y: scroll;">
-        Message(s):
-        {#each messages as item}
-            <div>
-                { item.alias } | > | { item.message }
-            </div>
-        {/each}
+<div>
+    <div id="chatmessagebox" class="chatmessage">
+        <div id="messagebox" class="chatbox" style="background-color:#aaa;overflow-y: scroll;">
+            Message(s):
+            {#each messages as item}
+                <div>
+                    { item.alias } | > | { item.message }
+                </div>
+            {/each}
+        </div>
+        <div class="col" style="width:100px; background-color:#bbb;"></div>
     </div>
-    <div class="col" style="width:100px; background-color:#bbb;"></div>
-</div>
-<div style="height:70px;width:100%;background-color:gray;padding: 4px;">
-    <button on:click={togglecontact}>Contact</button>
-        {#if bdisplaycontact == true}
-            <select type="text" bind:value={selectitem} on:change={selectcontact}>
-                <option selected="true"> None </option>
-                {#each contacts as item}
-                    <option value={item.pub}> {item.alias}</option>
-                {/each}
-                <!--<option v-for="item in contacts" :key="item.id" v-bind:value="item.pub"> {item.alias}}</option>-->
-            </select>
-            Public Key:
-            <input type="text" bind:value={publickey} on:keyup={checkalias}>
-            <button on:click={addcontact}>Add</button>
-            <button on:click={removecontact}>Remove</button>
-        {/if}
-    <label>Status:{statussearch}</label>
+    <div style="height:70px;width:100%;background-color:gray;padding: 4px;">
+        <button on:click={togglecontact}>Contact</button>
+            {#if bdisplaycontact == true}
+                <select type="text" bind:value={selectitem} on:change={selectcontact}>
+                    <option selected="true"> None </option>
+                    {#each contacts as item}
+                        <option value={item.pub}> {item.alias}</option>
+                    {/each}
+                    <!--<option v-for="item in contacts" :key="item.id" v-bind:value="item.pub"> {item.alias}}</option>-->
+                </select>
+                Public Key:
+                <input type="text" bind:value={publickey} on:keyup={checkalias}>
+                <button on:click={addcontact}>Add</button>
+                <button on:click={removecontact}>Remove</button>
+            {/if}
+        <label>Status:{statussearch}</label>
 
-    <table>
-        <tr>
-            <td>
-                Content:
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <textarea bind:value={messagecontent}  /> 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button on:click={sendprivatemessage}>Send</button>
-            </td>
-        </tr>
-    </table>
-    
+        <table>
+            <tr>
+                <td>
+                    Content:
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea bind:value={messagecontent}  /> 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button on:click={sendprivatemessage}>Send</button>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
 </div>
