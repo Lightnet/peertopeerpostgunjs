@@ -10,7 +10,7 @@
     import MessagesComponent from "./messages/MessagesComponent.svelte";
 
     import ForumComponent from "./forum/ForumComponent.svelte";
-    import ChatComponent from "./chat/ChatComponent.svelte";
+    import ChatMainComponent from "./chat/ChatMainComponent.svelte";
 
     import DatabaseComponent from "./database/DatabaseComponent.svelte";
     import TestAreaComponent from "./gun/TestAreaComponent.svelte";
@@ -26,9 +26,9 @@
     let bforgot = false;
     let navmenus = [];
     let accessview = AccountComponent;
-    accessview = MessagesComponent;
+    //accessview = MessagesComponent;
     //accessview = DatabaseComponent;
-    //accessview = ChatComponent;
+    accessview = ChatMainComponent;
 
     const LoginuUsub = onLogin.subscribe(value => {
         //console.log("login",value);
@@ -40,7 +40,7 @@
         navmenus.push({name:"Test Area",context:"testarea",comp:TestAreaComponent});
         navmenus.push({name:"Account",context:"account",comp:AccountComponent});
         navmenus.push({name:"Messages",context:"messages",comp:MessagesComponent});
-        navmenus.push({name:"Chat",context:"chat",comp:ChatComponent});
+        navmenus.push({name:"Chat",context:"chat",comp:ChatMainComponent});
         navmenus.push({name:"Forum",context:"forum",comp:ForumComponent});
         navmenus.push({name:"Database",context:"database",comp:DatabaseComponent});
         navmenus.push({name:"Admin",context:"admin",comp:AdminComponent});

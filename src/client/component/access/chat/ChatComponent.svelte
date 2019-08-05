@@ -15,6 +15,10 @@
     let idchatmessages = generateId(20);
     let elchatmessages;
     let chatmessage = "test";
+    let gunchat;
+    let messages = [];
+
+    export let acceschatkey = "";
 
     //const onUserNameUnsubscribe = onUserName.subscribe(value => {
 		//console.log(value);
@@ -37,6 +41,21 @@
         elcontent = document.getElementById(idcomponent);
         elchatmessages = document.getElementById(idchatmessages);
 
+
+        if(acceschatkey.length == 0){
+            console.log("EMPTY KEY");
+        }
+        
+        gunchat = gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).map()
+        gunchat.on(handle_messages)
+
+        gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).once().map().once();
+        
+
+        setTimeout(function(){
+            elchatmessages.scrollTop = elchatmessages.scrollHeight;
+        }, 600);
+
         resizediv();
 		window.addEventListener('resize', resizediv);
     });
@@ -44,7 +63,27 @@
     onDestroy(()=>{
         //onUserNameUnsubscribe();
         window.removeEventListener('resize', resizediv);
+        gunchat.off();//turn off
     });
+
+    function updatescrollmessages(){
+        if(elchatmessages !=null){
+            return;
+        }
+        elchatmessages.scrollTop = elchatmessages.scrollHeight;
+    }
+
+    function handle_messages(data,key){
+        //console.log(data);
+        //console.log(key);
+        if(data !=null){
+            messages.push(data)
+            messages = messages;
+
+            updatescrollmessages();
+
+        }
+    }
 
     function timestamp(){
         let currentDate = new Date();
@@ -67,20 +106,28 @@
         if (keycode == '13') {
             //let date = new Date("Wed, 27 July 2016 13:30:00");
             //console.dir(timestamp());
+            if(acceschatkey.length == 0){
+                console.log("EMPTY KEY");
+                return;
+            }
             let current = timestamp();
             console.log(current);
-            gun.get('chattest').get(current).put(chatmessage);
+            gun.get(acceschatkey).get('message').get(current).put(chatmessage);
             //gun.get('chattest').get('2019/06/20:10:10:10.30').put(chatmessage);
             //console.log('You pressed enter! - keypress');
         }
-
     }
+    
     function btnQueryChat(e){
         //console.log('QUERY');
         function qcallback(data,key){
             console.log(data,key)
         }
-        gun.get('chattest').get({'.': {'*': '2019/08/'}}).once().map().once(qcallback)
+        if(acceschatkey.length == 0){
+            console.log("EMPTY KEY");
+            return;
+        }
+        gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).once().map().once(qcallback)
         function qcallback2(data,key){
             console.log(data,key)
         }
@@ -92,7 +139,7 @@
         function qcallback(data,key){
             console.log(data,key)
         }
-        gun.get({'.': {'*': '~@'}}).once(qcallback)
+        //gun.get({'.': {'*': '~@'}}).once(qcallback)
     }
 
 </script>
@@ -105,16 +152,19 @@
     .chatmessage{
         height:80%;
         width:100%;
-        background-color: black;
-        overflow: scroll;
+        /*background-color: black;*/
+        /*overflow: scroll;*/
+        overflow-y: scroll;
     }
 </style>
 
 <div id="{idcomponent}" class="chatarea">
     <div id="{idchatmessages}" class="chatmessage">
-    
+        {#each messages as message}
+            <div>{message}</div>
+        {/each}
     </div>
     <label>Chat</label> <input bind:value="{chatmessage}" on:keypress={handle_chatmessage} />
-    <button on:click={btnQueryChat}>Query</button>
-    <button on:click={btnQueryGun}>Query Gun</button>
+    <button on:click={btnQueryChat}>Query Chat</button>
+    <!--<button on:click={btnQueryGun}>Query Gun</button>-->
 </div>
