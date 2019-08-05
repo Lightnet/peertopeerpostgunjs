@@ -104,7 +104,6 @@
         gun.get(genchatkey).get('message').get(current).put('created');
         //gun.get(genchatkey).get('memeber').get(pair.pub).put(enc);//should not be here?
 
-        
     }
 
     function ChatList(){

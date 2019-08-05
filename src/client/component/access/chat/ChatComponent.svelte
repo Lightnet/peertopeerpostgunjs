@@ -8,7 +8,7 @@
     import { onMount, onDestroy } from 'svelte';
     import ModalComponent from "../../base/ModalComponent.svelte";
     import { generateId } from '../../helper/generateid.js';
-    import { gun, pair } from '../../../mjs.js';
+    import { gun } from '../../../mjs.js';
 
     let idcomponent = generateId(20);
     let elcontent;
@@ -17,8 +17,11 @@
     let chatmessage = "test";
     let gunchat;
     let messages = [];
+    let user;
+    let pair;
 
     export let acceschatkey = "";
+    let sharekey = "";
 
     //const onUserNameUnsubscribe = onUserName.subscribe(value => {
 		//console.log(value);
@@ -37,21 +40,37 @@
         elcontent.style.height = parent.clientHeight - 44 + 'px';
         elcontent.style.width = parent.clientWidth + 'px';
     }
-    onMount(() => {
+    onMount(async () => {
         elcontent = document.getElementById(idcomponent);
         elchatmessages = document.getElementById(idchatmessages);
-
 
         if(acceschatkey.length == 0){
             console.log("EMPTY KEY");
         }
-        
-        gunchat = gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).map()
-        gunchat.on(handle_messages)
 
-        gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).once().map().once();
-        
+        //user.get('chatroom').get(acceschatkey).put(enc);
+        user = gun.user();
+        pair = user._.sea;
+        let sec = await user.get('chatroom').get(acceschatkey).then();
+        console.log(sec);
+        sec = await SEA.decrypt(sec, pair);
+        console.log(sec);
+        sharekey = sec;
 
+        console.log(sharekey);
+
+        let currentDate = new Date();
+        //console.log(currentDate);
+        let year = currentDate.getFullYear();
+        let month = ("0" + (currentDate.getMonth() + 1 ) ).slice(-2);
+        let timestring = year + "/" + month + "/";
+        
+        //gunchat = gun.get(acceschatkey).get('message').get({'.': {'*': '2019/08/'}}).map();
+        gunchat = gun.get(acceschatkey).get('message').get({'.': {'*': timestring}}).map();
+        gunchat.on(handle_messages);
+
+        gun.get(acceschatkey).get('message').get({'.': {'*': timestring}}).once().map().once();
+        
         setTimeout(function(){
             elchatmessages.scrollTop = elchatmessages.scrollHeight;
         }, 600);
@@ -73,15 +92,20 @@
         elchatmessages.scrollTop = elchatmessages.scrollHeight;
     }
 
-    function handle_messages(data,key){
+    async function handle_messages(data,key){
         //console.log(data);
         //console.log(key);
         if(data !=null){
-            messages.push(data)
-            messages = messages;
+            let enc = window.atob(data);
+            enc = JSON.parse(enc);
+            console.log(enc);
 
-            updatescrollmessages();
-
+            enc = await SEA.decrypt(enc, sharekey);
+            if(enc !=null){
+                messages.push(enc)
+                messages = messages;
+                updatescrollmessages();
+            }
         }
     }
 
@@ -89,10 +113,8 @@
         let currentDate = new Date();
         //console.log(currentDate);
         let year = currentDate.getFullYear();
-        
-        let month = ("0" + (currentDate.getMonth() + 1 ) ).slice(-2); 
+        let month = ("0" + (currentDate.getMonth() + 1 ) ).slice(-2);
         let date = ("0" +currentDate.getDate()).slice(-2); 
-        
         let hour = ("0" +currentDate.getHours()).slice(-2);
         let minute = ("0" +currentDate.getMinutes()).slice(-2);
         let second = ("0" +currentDate.getSeconds()).slice(-2);
@@ -100,7 +122,7 @@
         return year + "/" + (month) + "/" + date + ":" + hour+ ":" + minute+ ":" + second+ ":" + millisecond;        
     }
 
-    function handle_chatmessage(e){
+    async function handle_chatmessage(e){
         //console.log(e);
         var keycode = (e.keyCode ? e.keyCode : e.which);
         if (keycode == '13') {
@@ -112,7 +134,11 @@
             }
             let current = timestamp();
             console.log(current);
-            gun.get(acceschatkey).get('message').get(current).put(chatmessage);
+            let enc = await SEA.encrypt(chatmessage, sharekey);
+            enc = JSON.stringify(enc);
+            enc = window.btoa(enc);
+            console.log(enc)
+            gun.get(acceschatkey).get('message').get(current).put(enc);
             //gun.get('chattest').get('2019/06/20:10:10:10.30').put(chatmessage);
             //console.log('You pressed enter! - keypress');
         }
