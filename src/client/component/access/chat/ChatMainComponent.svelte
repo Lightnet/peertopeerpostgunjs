@@ -97,11 +97,29 @@
         console.log(genchatkey);
 
         //chat room, chat id key, sec share key
-        user.get('chatroom').get(genchatkey).put(enc);
+        //user.get('chatroom').get(genchatkey).get('pub').put()
+        user.get('chatroom').get(genchatkey).get('pri').put(enc);
+        user.get('chatroom').get(genchatkey).get('own').put(pair.pub);
+        //console.log(pair);
+        let dh = await SEA.secret(pair.epub, pair);
+        enc = await SEA.encrypt(sec, dh);
+        user.get('chatroom').get(genchatkey).get('pub').put(enc);
 
         //created messsage chat message default
         let current = timestamp();
-        gun.get(genchatkey).get('message').get(current).put('created');
+        gun.get(genchatkey)
+            .get('info')
+            .put({
+                name:genchatkey,
+                description:"",
+                icon:"null",
+                icontype:"null",
+            });
+        let msg = await SEA.encrypt("Created!", sec);
+        //sea.js key can't be json for gun bug, will return null or return.
+        msg = JSON.stringify(msg);
+        msg = window.btoa(msg);
+        gun.get(genchatkey).get('message').get(current).put(msg);
         //gun.get(genchatkey).get('memeber').get(pair.pub).put(enc);//should not be here?
 
     }

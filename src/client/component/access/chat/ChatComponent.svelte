@@ -48,17 +48,31 @@
             console.log("EMPTY KEY");
         }
 
+        setupChat();
+
+        resizediv();
+		window.addEventListener('resize', resizediv);
+    });
+
+    async function setupChat(){
         //user.get('chatroom').get(acceschatkey).put(enc);
-        user = gun.user();
-        pair = user._.sea;
-        let sec = await user.get('chatroom').get(acceschatkey).then();
-        console.log(sec);
-        sec = await SEA.decrypt(sec, pair);
-        console.log(sec);
-        sharekey = sec;
+        let user = gun.user();
+        let pair = user._.sea;
+        let enc = await user.get('chatroom').get(acceschatkey).get('pub').then();
+        let own = await user.get('chatroom').get(acceschatkey).get('own').then();
+        console.log(own);
+        let to = gun.user(own);
+        let epub = await to.get('epub');
+        console.log("epub",epub);
+        let mix = await SEA.secret(epub, pair);
+        console.log("mix",mix);
+        let key = await SEA.decrypt(enc, mix);
+        console.log("key:",key);
+        sharekey = key;
+        //console.log(sharekey);
 
-        console.log(sharekey);
-
+        
+        //get current date chat
         let currentDate = new Date();
         //console.log(currentDate);
         let year = currentDate.getFullYear();
@@ -74,15 +88,12 @@
         setTimeout(function(){
             elchatmessages.scrollTop = elchatmessages.scrollHeight;
         }, 600);
-
-        resizediv();
-		window.addEventListener('resize', resizediv);
-    });
+    }
 
     onDestroy(()=>{
         //onUserNameUnsubscribe();
         window.removeEventListener('resize', resizediv);
-        gunchat.off();//turn off
+        //gunchat.off();//turn off
     });
 
     function updatescrollmessages(){
