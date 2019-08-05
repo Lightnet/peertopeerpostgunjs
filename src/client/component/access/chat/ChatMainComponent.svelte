@@ -103,7 +103,7 @@
         //console.log(pair);
         let dh = await SEA.secret(pair.epub, pair);
         enc = await SEA.encrypt(sec, dh);
-        user.get('chatroom').get(genchatkey).get('pub').put(enc);
+        user.get('chatroom').get(genchatkey).get('member').get(pair.pub).put(enc);
 
         //created messsage chat message default
         let current = timestamp();
@@ -120,6 +120,7 @@
         msg = JSON.stringify(msg);
         msg = window.btoa(msg);
         gun.get(genchatkey).get('message').get(current).put(msg);
+        gun.get(genchatkey).get('own').put(pair.pub);
         //gun.get(genchatkey).get('memeber').get(pair.pub).put(enc);//should not be here?
 
     }
@@ -171,6 +172,5 @@
         <button on:click={btnRemoveKey}> Remove </button>
     {:else}
         <ChatComponent acceschatkey={accesskey}></ChatComponent>
-
     {/if}
 </div>

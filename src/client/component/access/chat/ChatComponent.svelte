@@ -7,6 +7,7 @@
     */
     import { onMount, onDestroy } from 'svelte';
     import ModalComponent from "../../base/ModalComponent.svelte";
+    import ChatAccessComponent from "./ChatAccessComponent.svelte";
     import { generateId } from '../../helper/generateid.js';
     import { gun } from '../../../mjs.js';
 
@@ -22,11 +23,6 @@
 
     export let acceschatkey = "";
     let sharekey = "";
-
-    //const onUserNameUnsubscribe = onUserName.subscribe(value => {
-		//console.log(value);
-		//username = value;
-    //});
     
     function resizediv(){
 		//console.log("resize");
@@ -40,6 +36,7 @@
         elcontent.style.height = parent.clientHeight - 44 + 'px';
         elcontent.style.width = parent.clientWidth + 'px';
     }
+
     onMount(async () => {
         elcontent = document.getElementById(idcomponent);
         elchatmessages = document.getElementById(idchatmessages);
@@ -58,7 +55,22 @@
         //user.get('chatroom').get(acceschatkey).put(enc);
         let user = gun.user();
         let pair = user._.sea;
-        let enc = await user.get('chatroom').get(acceschatkey).get('pub').then();
+        let p = await gun.get(acceschatkey).get('own').then();
+        console.log(p);
+        let to = gun.user(p);
+        let key = await to.get('chatroom').get(acceschatkey).get('member').get(pair.pub).then();
+        console.log("key:",key);
+        let epub = await to.get('epub');
+        let mix = await SEA.secret(epub, pair);
+        key = await SEA.decrypt(key, mix);
+        console.log("key:",key);
+
+
+        /* self not other key
+        let user = gun.user();
+        let pair = user._.sea;
+        let enc = await user.get('chatroom').get(acceschatkey).get('member').get(pair.pub).then();
+        console.log(enc);
         let own = await user.get('chatroom').get(acceschatkey).get('own').then();
         console.log(own);
         let to = gun.user(own);
@@ -68,10 +80,9 @@
         console.log("mix",mix);
         let key = await SEA.decrypt(enc, mix);
         console.log("key:",key);
+        */
         sharekey = key;
         //console.log(sharekey);
-
-        
         //get current date chat
         let currentDate = new Date();
         //console.log(currentDate);
@@ -88,6 +99,7 @@
         setTimeout(function(){
             elchatmessages.scrollTop = elchatmessages.scrollHeight;
         }, 600);
+        
     }
 
     onDestroy(()=>{
@@ -203,5 +215,6 @@
     </div>
     <label>Chat</label> <input bind:value="{chatmessage}" on:keypress={handle_chatmessage} />
     <button on:click={btnQueryChat}>Query Chat</button>
+    <ChatAccessComponent accesskey={acceschatkey}></ChatAccessComponent>
     <!--<button on:click={btnQueryGun}>Query Gun</button>-->
 </div>
