@@ -23,13 +23,6 @@
     let accesskey = "";
     let chatroomlist = [];
     let chatselectid = "";
-
-    accesskey = chatselectid;
-
-    //const onUserNameUnsubscribe = onUserName.subscribe(value => {
-		//console.log(value);
-		//username = value;
-    //});
     
     function resizediv(){
 		//console.log("resize");
@@ -57,11 +50,23 @@
     });
 
     function btnAddKey(e){
-
+        if(accesskey.length == 0){
+            return;
+        }
+        let user = gun.user();
+        user.get('chatroom').get(accesskey).get('name').put(accesskey,ack=>{
+            console.log(ack)
+        });
     }
 
     function btnRemoveKey(e){
-
+        if(accesskey.length == 0){
+            return;
+        }
+        let user = gun.user();
+        user.get('chatroom').get(accesskey).get('name').put(null,ack=>{
+            console.log(ack)
+        });
     }
 
     function btnJoinRoom(e){

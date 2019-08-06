@@ -59,6 +59,10 @@
         console.log(p);
         let to = gun.user(p);
         let key = await to.get('chatroom').get(acceschatkey).get('member').get(pair.pub).then();
+        if((key == "null")||key == null){
+            console.log("REJECT!");
+            return;
+        }
         console.log("key:",key);
         let epub = await to.get('epub');
         let mix = await SEA.secret(epub, pair);
@@ -120,6 +124,7 @@
         //console.log(key);
         if(data !=null){
             let enc = window.atob(data);
+            console.log(enc);
             enc = JSON.parse(enc);
             console.log(enc);
 
