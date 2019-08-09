@@ -127,6 +127,7 @@
         gun.get(genchatkey).get('message').get(current).put(msg);
         gun.get(genchatkey).get('own').put(pair.pub);
         //gun.get(genchatkey).get('memeber').get(pair.pub).put(enc);//should not be here?
+        ChatList();
 
     }
 
@@ -134,8 +135,8 @@
         chatroomlist=[];
         let user = gun.user();
         user.get('chatroom').once().map().once(function(data,key){
-            console.log("data",data);
-            console.log("key",key);
+            //console.log("data",data);
+            //console.log("key",key);
             if(data !=null){
                 chatroomlist.push(key);
                 chatroomlist = chatroomlist;
@@ -148,7 +149,6 @@
         //console.log(chatselectid);
         accesskey = chatselectid;
     }
-
 
 </script>
 

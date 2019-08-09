@@ -310,6 +310,21 @@ export const updatetoggle = writable(false);
 context.updatetoggle = updatetoggle;
 export const utils = {}
 
+
+
+export function timestamp(){
+    let currentDate = new Date();
+    //console.log(currentDate);
+    let year = currentDate.getFullYear();
+    let month = ("0" + (currentDate.getMonth() + 1 ) ).slice(-2);
+    let date = ("0" +currentDate.getDate()).slice(-2); 
+    let hour = ("0" +currentDate.getHours()).slice(-2);
+    let minute = ("0" +currentDate.getMinutes()).slice(-2);
+    let second = ("0" +currentDate.getSeconds()).slice(-2);
+    let millisecond = currentDate.getMilliseconds();
+    return year + "/" + (month) + "/" + date + ":" + hour+ ":" + minute+ ":" + second+ ":" + millisecond;        
+}
+
 export default {
     Main,
     data,

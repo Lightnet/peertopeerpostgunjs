@@ -35,7 +35,7 @@
     }
 
     function btnlogin(e){
-        console.log(e);
+        //console.log(e);
         //console.log(loginid,password);
         if(isEmpty(loginid)||isEmpty(password)){
             console.log("empty");

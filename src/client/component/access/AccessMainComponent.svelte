@@ -9,7 +9,7 @@
     import AdminComponent from "./admin/AdminComponent.svelte";
     import MessagesComponent from "./messages/MessagesComponent.svelte";
 
-    import ForumComponent from "./forum/ForumComponent.svelte";
+    import ForumComponent from "./forum/ForumMainComponent.svelte";
     import ChatMainComponent from "./chat/ChatMainComponent.svelte";
 
     import DatabaseComponent from "./database/DatabaseComponent.svelte";
@@ -28,7 +28,8 @@
     let accessview = AccountComponent;
     //accessview = MessagesComponent;
     //accessview = DatabaseComponent;
-    accessview = ChatMainComponent;
+    //accessview = ChatMainComponent;
+    accessview = ForumComponent;
 
     const LoginuUsub = onLogin.subscribe(value => {
         //console.log("login",value);
@@ -52,7 +53,7 @@
     });
 
     function h_event(e){
-        console.log(e)
+        //console.log(e);
         if(e.detail != null){
             if(e.detail.action !=null){
                 if(e.detail.action == "forgot"){
@@ -93,7 +94,7 @@
         <AccessNavigationComponent></AccessNavigationComponent>
         <div class="access_navmenu">
             {#each navmenus as menu}    
-                <a href="/#" on:click="{()=>h_context(menu.comp)}">{menu.name} </a>
+                <a href="/#" class="{menu.comp == accessview ? 'active' : ''}"  on:click="{()=>h_context(menu.comp)}">{menu.name} </a>
             {/each}
         </div>
         {#if accessview !=null}

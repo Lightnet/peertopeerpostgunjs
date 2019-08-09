@@ -95,7 +95,7 @@
     Gun.on('opt', function(context) {
         //context.opt.sharekeytype="path";// path for user //This will auto check default for gun and user
         //context.opt.sharekeytype="graph"; //gun graph sea key will be convert to string and base (bug).
-        context.opt.sharekeydebug = true;
+        context.opt.sharekeydebug = false;
         context.opt.sharekeyvalue = 'value';
         context.opt.sharekeytrust = 'trust';
         context.opt.sharekeybbase = true; //btoa, atob //base64 ecode and decode

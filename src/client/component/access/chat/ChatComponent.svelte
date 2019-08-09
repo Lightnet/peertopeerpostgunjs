@@ -5,7 +5,7 @@
         '2019/06/20:10:10:10.30' <- correct format
         '2019/6/20:10:10:10.30'  <- incorrect format `2019/6` will error that need to match reg.
     */
-    import { onMount, onDestroy } from 'svelte';
+    import { onMount, onDestroy, afterUpdate } from 'svelte';
     import ModalComponent from "../../base/ModalComponent.svelte";
     import ChatAccessComponent from "./ChatAccessComponent.svelte";
     import { generateId } from '../../helper/generateid.js';
@@ -27,6 +27,7 @@
     function resizediv(){
 		//console.log("resize");
 		if(elcontent == null){
+            elcontent = document.getElementById(idcomponent);
             return;
         }
         //console.log("resize");
@@ -51,19 +52,24 @@
 		window.addEventListener('resize', resizediv);
     });
 
+    afterUpdate(()=>{
+        updatescrollmessages();
+    });
+
     async function setupChat(){
         //user.get('chatroom').get(acceschatkey).put(enc);
         let user = gun.user();
         let pair = user._.sea;
         let p = await gun.get(acceschatkey).get('own').then();
-        console.log(p);
+        //console.log(p);
         let to = gun.user(p);
+        console.log(to)
         let key = await to.get('chatroom').get(acceschatkey).get('member').get(pair.pub).then();
         if((key == "null")||key == null){
             console.log("REJECT!");
             return;
         }
-        console.log("key:",key);
+        //console.log("key:",key);
         let epub = await to.get('epub');
         let mix = await SEA.secret(epub, pair);
         key = await SEA.decrypt(key, mix);
@@ -109,13 +115,15 @@
     onDestroy(()=>{
         //onUserNameUnsubscribe();
         window.removeEventListener('resize', resizediv);
-        //gunchat.off();//turn off
+        gunchat.off();//turn off
     });
 
     function updatescrollmessages(){
-        if(elchatmessages !=null){
-            return;
+        //console.log("check update???");
+        if(elchatmessages ==null){
+            elchatmessages = document.getElementById(idchatmessages);
         }
+        //console.log(" update...");
         elchatmessages.scrollTop = elchatmessages.scrollHeight;
     }
 
@@ -124,15 +132,28 @@
         //console.log(key);
         if(data !=null){
             let enc = window.atob(data);
-            console.log(enc);
-            enc = JSON.parse(enc);
-            console.log(enc);
-
+            //console.log(enc);
+            if(enc == 'undefined'){
+                return;
+            }
+            //console.log(typeof enc);
+            //var res = enc.charAt(0);
+            //if(res == '"'){
+                //console.log("FOUND!")
+            //}
+            //if((typeof enc == 'string')||(res == '"')){
+            if((typeof enc == 'string')){
+                enc = JSON.parse(enc);
+            }
+            //console.log(enc);
             enc = await SEA.decrypt(enc, sharekey);
             if(enc !=null){
                 messages.push(enc)
                 messages = messages;
-                updatescrollmessages();
+                //setTimeout(function(){
+                    //updatescrollmessages();
+                //}, 100);
+                
             }
         }
     }
@@ -161,11 +182,11 @@
                 return;
             }
             let current = timestamp();
-            console.log(current);
+            //console.log(current);
             let enc = await SEA.encrypt(chatmessage, sharekey);
             enc = JSON.stringify(enc);
             enc = window.btoa(enc);
-            console.log(enc)
+            //console.log(enc)
             gun.get(acceschatkey).get('message').get(current).put(enc);
             //gun.get('chattest').get('2019/06/20:10:10:10.30').put(chatmessage);
             //console.log('You pressed enter! - keypress');

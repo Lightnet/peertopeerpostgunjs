@@ -139,6 +139,10 @@ button:focus {
 	display: block;
 }
 
+.active{
+	background-color: #5177b2;
+}
+
 #splitterv
 {
   width:4px;

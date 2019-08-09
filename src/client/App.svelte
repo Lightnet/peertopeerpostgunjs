@@ -47,12 +47,12 @@
 		}
 		gun.on('hi', peer => {//peer connect
 			//console.log('connect peer to',peer);
-			console.log('peer connect!');
+			//console.log('peer connect!');
 		});
 
 		gun.on('bye', (peer)=>{// peer disconnect
 			//console.log('disconnected from', peer);
-			console.log('disconnected from peer!');
+			//console.log('disconnected from peer!');
 		});
 		//gun.get('mark').put({
 			//name: "Mark",
