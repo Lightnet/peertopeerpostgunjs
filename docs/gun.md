@@ -1,3 +1,68 @@
+
+
+
+
+
+
+```javascript
+
+
+
+```
+
+```javascript
+
+
+
+```
+
+
+```javascript
+
+
+
+```
+
+
+```javascript
+import Gun from 'gun/gun'
+import Sea from 'gun/sea'  // eslint-disable-line no-unused-vars
+import Axe from 'gun/axe'
+
+export default Gun({
+  localStorage: true,
+  radisk: true,
+  peers: ['http://localhost:8765/gun']
+})
+
+
+```
+
+
+
+```javascript
+
+user.auth(user.is.alias, oldpassphrase, (ack) => {//user auth call1
+    let status = ack.err || "Saved!";//check if there error else saved message.
+    console.log(status);
+}, {change: newpassphrase});//set config to change password
+
+```
+
+
+
+
+```javascript
+gun.on('auth',ack=>{
+    console.log('auth');
+    console.log(ack);
+    console.log(ack.sea.pub);//public key
+    console.log(ack.soul);//user id
+});
+
+```
+
+
 ```javascript
 ;USE(function(module){
         // request / response module, for asking and acking messages.

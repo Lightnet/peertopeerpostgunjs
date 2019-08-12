@@ -2,15 +2,15 @@
     import { onMount, onDestroy } from 'svelte';
     import { onUserName } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
-    import { gun, timestamp } from '../../../mjs.js';
+    import { gun } from '../../../mjs.js';
 
     let idcomponent = generateId(20);
     let elcontent;
 
     export let forumid;
-
-    let title = "title";
-    let content = "context";
+    export let boardid;
+    export let topicid;
+    let showforum = false;
 
     onMount(() => {
         //elcontent = document.getElementById(idcomponent);
@@ -39,28 +39,9 @@
         elcontent.style.width = parent.clientWidth + 'px';
     }
 
-    function btnSubmit(e){
-        let user = gun.user();
-        let pair = user._.sea;
-        //gun.get('forum').get(forumid).get('member').get(pair.pub).put(enc);
-        console.log(forumid);
-        console.log(boardtitle, boardcontent);
-        let genboardid = Gun.text.random();
-        gun.get('forum')
-            .get(forumid)
-            .get('board')
-            .get(genboardid)
-            .put({
-                pub:pair.pub,
-                title:title,
-                content:content,
-                date:timestamp()
-            });
-    }
-
 </script>
 <div id="{idcomponent}">
-    Board
+    Topic
     <table>
         <tbody>
             <tr>
@@ -68,7 +49,7 @@
                     Title:
                 </td>
                 <td>
-                    <input bind:value={title}>
+                    <input >
                 </td>
             </tr>
             <tr>
@@ -76,13 +57,12 @@
                     
                 </td>
                 <td>
-                    <textarea bind:value={content}/>
+                    <textarea />
                 </td>
             </tr>
         </tbody>
     </table>
-
-
-    <button on:click={btnSubmit}>Create</button>
-
+    <button>Post</button>
+    <button>Cancel</button>
+    
 </div>

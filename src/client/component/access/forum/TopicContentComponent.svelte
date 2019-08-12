@@ -50,8 +50,10 @@
     }
 
     function Handle_Click(e){
-        dispatch('selectboard',id);
-        console.log("click...");
+        //console.log(e);
+        //console.log(id)
+        dispatch('selecttopic',id);
+        //console.log("click...");
     }
 
 </script>

@@ -1,14 +1,17 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import { onUserName } from '../../../mjs.js';
+    //import { onUserName } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
-    import { gun } from '../../../mjs.js';
+    import { gun, timestamp } from '../../../mjs.js';
 
     let idcomponent = generateId(20);
     let elcontent;
 
     export let forumid;
-    let showforum = false;
+    export let boardid;
+
+    let title = "title topic" + generateId(20);
+    let content = "context topic";
 
     onMount(() => {
         //elcontent = document.getElementById(idcomponent);
@@ -37,6 +40,53 @@
         elcontent.style.width = parent.clientWidth + 'px';
     }
 
+    function btnSubmit(e){
+        let user = gun.user();
+        let pair = user._.sea;
+        //gun.get('forum').get(forumid).get('member').get(pair.pub).put(enc);
+        console.log(forumid);
+        console.log(title, content);
+        let gentopicid = Gun.text.random();
+        /*
+        gun.get(boardid)
+            .get('topic')
+            .get(gentopicid)
+            .put({
+                pub:pair.pub,
+                title:title,
+                content:content,
+                date:timestamp()
+            });
+        */
+        //yMWrtLsQe7gJEFMG1dKppydh
+        
+        /*
+        gun.get(boardid).once(function(data,key){
+            console.log(data,null,key);
+        });
+        */
+        
+        /*
+        gun.get(boardid).once().map().once(function(data,key){
+            console.log(data,null,key);
+        });
+        */
+        /*
+        gun.get('forum')
+            .get(forumid)
+            .get('board')
+            .get(boardid)
+            .get('topic')
+            .get(gentopicid)
+            .put({
+                pub:pair.pub,
+                title:boardtitle,
+                content:boardcontent,
+                date:timestamp()
+            });
+        */
+    }
+
 </script>
 <div id="{idcomponent}">
     Topic
@@ -47,7 +97,7 @@
                     Title:
                 </td>
                 <td>
-                    <input >
+                    <input bind:value={title}>
                 </td>
             </tr>
             <tr>
@@ -55,11 +105,11 @@
                     
                 </td>
                 <td>
-                    <textarea />
+                    <textarea  bind:value={content} />
                 </td>
             </tr>
         </tbody>
     </table>
-    <button>Create</button>
+    <button on:click={btnSubmit}>Create</button>
     
 </div>

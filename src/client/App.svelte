@@ -61,9 +61,15 @@
 		//gun.get('mark').on(function(data, key){
 			//console.log("update:", data);
 		//});
+		gun.on('auth',ack=>{
+			console.log('auth');
+			console.log(ack);
+			console.log(ack.sea.pub);//public key
+			console.log(ack.soul);//user id
+		});
+
         mjs.setGun(gun);
         
-
         resizediv();
 		window.addEventListener('resize', resizediv);
     });

@@ -8,6 +8,10 @@
     import ForumCreateTopicComponent from "./ForumCreateTopicComponent.svelte";
 
     import BoardContentComponent from "./BoardContentComponent.svelte";
+    import TopicContentComponent from "./TopicContentComponent.svelte";
+    import PostContentComponent from "./TopicContentComponent.svelte";
+
+    //const dispatch = createEventDispatcher();
 
     let idcomponent = generateId(20);
     let elcontent;
@@ -20,7 +24,10 @@
 
     let boardlist=[];
     let topiclist=[];
+    let postlist=[];
     let gunboard;
+    let selectboardid="";
+    let selecttopicid="";
 
     onMount(() => {
         elcontent = document.getElementById(idcomponent);
@@ -66,12 +73,52 @@
     }
 
     function btnCreateTopic(e){
+        console.log(selectboardid)
+        if(selectboardid.length == 0){
+            console.log("board id not found!");
+            return;
+        }
         console.log("btnCreateTopic");
         bcreatedtopic= !bcreatedtopic;
         if(bcreatedborad){
             bcreatedborad=false;
         }
     }
+
+    function Handle_SelectBoard(e){
+        console.log("selected:",e.detail);
+        selectboardid=e.detail
+        boardlist=[];
+        boardlist=boardlist;
+
+        gun.get(selectboardid).get('topic').once().map().once(function(data,key){
+            console.log(data,key)
+            topiclist.push({id:key,data});
+            topiclist=topiclist;
+        });
+    }
+
+    function Handle_SelectTopic(e){
+        console.log("selected:",e.detail);
+        selecttopicid=e.detail;
+        
+        gun.get(selecttopicid).get('post').once().map().once(function(data,key){
+            console.log(data,key);
+            //postlist.push({id:key,data});
+            //postlist=postlist;
+        });
+        
+    }
+
+    function Handle_SelectPost(e){
+        //???
+    }
+
+    function btnCheck(){
+        console.log("selectboardid",selectboardid);
+        console.log("selecttopicid",selecttopicid);
+    }
+
     /*
 
 
@@ -81,21 +128,42 @@
 <div id="{idcomponent}">
     <button on:click={btnCreateBoard}>Create Board</button>
     <button on:click={btnCreateTopic}>Create Topic</button>
+    <button on:click={btnCheck}>Check</button>
+    <label>Board ID:{selectboardid}</label>
+    <label>Topic ID:{selecttopicid}</label>
     {#if bcreatedborad == true}
         <ForumCreateBoardComponent forumid={forumid}></ForumCreateBoardComponent>
     {/if}
     {#if bcreatedtopic == true}
-        <ForumCreateTopicComponent forumid={forumid}></ForumCreateTopicComponent>
+        <ForumCreateTopicComponent forumid={forumid} boardid={selectboardid}></ForumCreateTopicComponent>
     {/if}
 
     {#each boardlist as board}
-        {@debug board}
         <BoardContentComponent
             id={board.id}
             pub={board.data.pub}
             title={board.data.title}
             content={board.data.content}
-            
+            on:selectboard={Handle_SelectBoard}
+        />
+    {/each}
+
+    {#each topiclist as topic}
+        <TopicContentComponent
+            id={topic.id}
+            pub={topic.data.pub}
+            title={topic.data.title}
+            content={topic.data.content}
+            on:selecttopic={Handle_SelectTopic}
+        />
+    {/each}
+
+    {#each postlist as post}
+        <PostContentComponent
+            id={post.id}
+            pub={post.data.pub}
+            title={post.data.title}
+            content={post.data.content}
         />
     {/each}
 </div>
