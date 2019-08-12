@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import { onUserName } from '../../../mjs.js';
+    //import { onUserName } from '../../../mjs.js';
     import { gun,timestamp } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
     import ForumContentComponent from "./ForumContentComponent.svelte";

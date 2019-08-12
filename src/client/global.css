@@ -6,6 +6,7 @@ html, body {
 *{
 	font-size: 12px;
 	background: #3a3a3a;
+	color:white;
 }
 
 body {
@@ -22,11 +23,10 @@ a {
 	text-decoration: none;
 	padding: 4px 4px 2px 4px;
 }
-/*
+
 a:link{
 	text-decoration: none;
 }
-*/
 
 a:hover {
 	background: #5177b2;

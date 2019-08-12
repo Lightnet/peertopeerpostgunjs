@@ -81,11 +81,11 @@
 
 </script>
 <style>
-    .autoresizediv{
+    .appdiv{
         height:100%;
         width:100%;
     }
 </style>
-<div id="{idcomponent}" class="autoresizediv">
+<div id="{idcomponent}" class="appdiv">
     <AccessMainComponent></AccessMainComponent>
 </div>

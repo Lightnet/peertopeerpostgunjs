@@ -1,15 +1,15 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import { onUserName } from '../../../mjs.js';
+    //import { onUserName } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
     import { gun } from '../../../mjs.js';
-    import ForumBoardListComponent from "./ForumBoardListComponent.svelte";
-    import ForumCreateBoardComponent from "./ForumCreateBoardComponent.svelte";
-    import ForumCreateTopicComponent from "./ForumCreateTopicComponent.svelte";
+    import CreateBoardComponent from "./CreateBoardComponent.svelte";
+    import CreateTopicComponent from "./CreateTopicComponent.svelte";
+    import CreatePostComponent from "./CreatePostComponent.svelte";
 
     import BoardContentComponent from "./BoardContentComponent.svelte";
     import TopicContentComponent from "./TopicContentComponent.svelte";
-    import PostContentComponent from "./TopicContentComponent.svelte";
+    import PostContentComponent from "./PostContentComponent.svelte";
 
     //const dispatch = createEventDispatcher();
 
@@ -18,6 +18,7 @@
 
     let bcreatedborad = false;
     let bcreatedtopic = false;
+    let bcreatedpost = false;
 
     export let forumid;
     let showforum = false;
@@ -28,6 +29,7 @@
     let gunboard;
     let selectboardid="";
     let selecttopicid="";
+    let viewmode="BOARD";
 
     onMount(() => {
         elcontent = document.getElementById(idcomponent);
@@ -46,6 +48,65 @@
         resizediv();
 		window.addEventListener('resize', resizediv);
     });
+
+    function UpdateBoard(){
+        boardlist=[];
+        gunboard.once().map().once(function(data,key){
+            console.log(data, key);
+            boardlist.push({id:key,data});
+            boardlist=boardlist;
+        });
+    }
+
+    function UpdateTopic(){
+        topiclist=[];
+        gun.get(selectboardid).get('topic').once().map().once(function(data,key){
+            console.log(data,key)
+            topiclist.push({id:key,data});
+            topiclist=topiclist;
+        });
+    }
+
+    function UpdatePost(){
+        topiclist=[];
+        gun.get(selecttopicid).get('post').once().map().once(function(data,key){
+            console.log(data,key)
+            topiclist.push({id:key,data});
+            topiclist=topiclist;
+        });
+    }
+
+    function btnUpdateForum(){
+        boardlist=[];
+        topiclist=[];
+        postlist=[];
+        UpdateBoard();
+        console.log("update btnUpdateForum");
+    }
+
+    function btnUpdateBoard(){
+        boardlist=[];
+        topiclist=[];
+        postlist=[];
+        UpdateBoard();
+        console.log("update btnUpdateBoard");
+    }
+
+    function btnUpdateTopic(){
+        boardlist=[];
+        topiclist=[];
+        postlist=[];
+        UpdateTopic();
+        console.log("update btnUpdateTopic");
+    }
+
+    function btnUpdatePost(){
+        boardlist=[];
+        topiclist=[];
+        postlist=[];
+        UpdatePost();
+        console.log("update post");
+    }
 
     onDestroy(()=>{
         //onUserNameUnsubscribe();
@@ -85,6 +146,19 @@
         }
     }
 
+    function btnCreatePost(e){
+        console.log(selectboardid)
+        if(selectboardid.length == 0){
+            console.log("board id not found!");
+            return;
+        }
+        console.log("btnCreateTopic");
+        bcreatedpost= !bcreatedpost;
+        if(bcreatedtopic){
+            bcreatedtopic=false;
+        }
+    }
+
     function Handle_SelectBoard(e){
         console.log("selected:",e.detail);
         selectboardid=e.detail
@@ -96,18 +170,21 @@
             topiclist.push({id:key,data});
             topiclist=topiclist;
         });
+        viewmode="BOARD";
     }
 
     function Handle_SelectTopic(e){
         console.log("selected:",e.detail);
         selecttopicid=e.detail;
-        
+        postlist=[];
         gun.get(selecttopicid).get('post').once().map().once(function(data,key){
             console.log(data,key);
-            //postlist.push({id:key,data});
-            //postlist=postlist;
+            postlist.push({id:key,data});
+            postlist=postlist;
         });
-        
+        topiclist=[];
+        topiclist=topiclist;
+        viewmode="TOPIC";
     }
 
     function Handle_SelectPost(e){
@@ -128,14 +205,20 @@
 <div id="{idcomponent}">
     <button on:click={btnCreateBoard}>Create Board</button>
     <button on:click={btnCreateTopic}>Create Topic</button>
+    <button on:click={btnCreatePost}>Create Post</button>
     <button on:click={btnCheck}>Check</button>
-    <label>Board ID:{selectboardid}</label>
-    <label>Topic ID:{selecttopicid}</label>
+    <button on:click={btnUpdateForum}>Forum ID:{forumid}</button>
+    <button on:click={btnUpdateBoard}>Board ID:{selectboardid}</button>
+    <button on:click={btnUpdateTopic}>Topic ID:{selecttopicid}</button>
+    <button on:click={btnUpdatePost}>Post Update</button>
     {#if bcreatedborad == true}
-        <ForumCreateBoardComponent forumid={forumid}></ForumCreateBoardComponent>
+        <CreateBoardComponent forumid={forumid} on:show={()=>{bcreatedborad=false}}/>
     {/if}
     {#if bcreatedtopic == true}
-        <ForumCreateTopicComponent forumid={forumid} boardid={selectboardid}></ForumCreateTopicComponent>
+        <CreateTopicComponent forumid={forumid} boardid={selectboardid} on:show={()=>{bcreatedtopic=false}} />
+    {/if}
+    {#if bcreatedpost == true}
+        <CreatePostComponent forumid={forumid} boardid={selectboardid} topicid={selecttopicid}  on:show={()=>{bcreatedpost=false}}/>
     {/if}
 
     {#each boardlist as board}

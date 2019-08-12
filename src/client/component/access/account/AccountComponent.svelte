@@ -52,10 +52,10 @@
 <div id="{idcomponent}">
     <div class="account_navmenu">
         {#each navmenus as menu}
-            <a href="/#" on:click="{()=>h_context(menu.comp)}">{menu.name} </a>
+            <button on:click="{()=>h_context(menu.comp)}">{menu.name} </button>
         {/each}
     </div>
     {#if accessview !=null}
-            <svelte:component this={accessview} on:hevent={hevent}/>
+        <svelte:component this={accessview} on:hevent={hevent}/>
     {/if}
 </div>

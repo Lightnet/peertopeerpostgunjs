@@ -1,9 +1,9 @@
 <script>
-    import { onMount, onDestroy } from 'svelte';
-    //import { onUserName } from '../../../mjs.js';
+    import { onMount, onDestroy, createEventDispatcher } from 'svelte';
     import { generateId } from '../../helper/generateid.js';
     import { gun, timestamp } from '../../../mjs.js';
 
+    const dispatch = createEventDispatcher();
     let idcomponent = generateId(20);
     let elcontent;
 
@@ -11,7 +11,7 @@
     export let boardid;
 
     let title = "title topic" + generateId(20);
-    let content = "context topic";
+    let content = "context topic" + generateId(20);
 
     onMount(() => {
         //elcontent = document.getElementById(idcomponent);
@@ -47,17 +47,24 @@
         console.log(forumid);
         console.log(title, content);
         let gentopicid = Gun.text.random();
-        /*
-        gun.get(boardid)
-            .get('topic')
-            .get(gentopicid)
+        //topic id
+        gun.get(boardid).get('topic').get(gentopicid)
             .put({
                 pub:pair.pub,
                 title:title,
                 content:content,
                 date:timestamp()
             });
-        */
+        let date = timestamp();
+        //post time stamp
+        gun.get(gentopicid).get('post').get(date)
+            .put({
+                pub:pair.pub,
+                title:title,
+                content:content,
+                date:timestamp()
+            });
+        
         //yMWrtLsQe7gJEFMG1dKppydh
         
         /*
@@ -87,6 +94,10 @@
         */
     }
 
+    function btnCancel(e){
+        dispatch('show',false);
+    }
+
 </script>
 <div id="{idcomponent}">
     Topic
@@ -111,5 +122,6 @@
         </tbody>
     </table>
     <button on:click={btnSubmit}>Create</button>
+    <button on:click={btnCancel}>Cancel</button>
     
 </div>

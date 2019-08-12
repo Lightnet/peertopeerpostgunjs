@@ -1,10 +1,8 @@
 <script>
     import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-    import { onUserName } from '../../../mjs.js';
+    //import { onUserName } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
     import { gun } from '../../../mjs.js';
-    import ForumBoardListComponent from "./ForumBoardListComponent.svelte";
-    import ForumCreateBoardComponent from "./ForumCreateBoardComponent.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -17,7 +15,6 @@
     export let content="None";
     export let date="None";
     export let tag="";
-
 
     onMount(() => {
         //elcontent = document.getElementById(idcomponent);
@@ -59,17 +56,21 @@
 </script>
 <style>
     .cardboard{
-        border: 1px solid #aaa;
-        width:100%;
+        /*border: 1px solid #aaa;*/
+        background-color: gray;
+        /*width:100%;*/
         height:64px;
-        border-radius: 2px;
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        padding: 1em;
-		margin: 0 0 1em 0;
+        /*border-radius: 2px;*/
+        /*box-shadow: 2px 2px 8px rgba(0,0,0,0.1);*/
+        /*padding: 1em;*/
+        /*margin: 0 0 1em 0;*/
+        padding: 4px;
+        margin: 0 0 4px 0;
     }
 
 </style>
 <div id="{idcomponent}" class="cardboard" on:click={Handle_Click}>
+    <label>TOPIC</label>
     <label>{title}</label>
     <label>{content}</label>
 </div>

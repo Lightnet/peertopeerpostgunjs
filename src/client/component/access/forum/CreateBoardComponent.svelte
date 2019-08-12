@@ -1,16 +1,17 @@
 <script>
-    import { onMount, onDestroy } from 'svelte';
-    import { onUserName } from '../../../mjs.js';
+    import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+    //import { onUserName } from '../../../mjs.js';
     import { generateId } from '../../helper/generateid.js';
     import { gun, timestamp } from '../../../mjs.js';
 
+    const dispatch = createEventDispatcher();
     let idcomponent = generateId(20);
     let elcontent;
 
     export let forumid;
 
-    let title = "title";
-    let content = "context";
+    let title = "title" + generateId(20);
+    let content = "context" + generateId(20);
 
     onMount(() => {
         //elcontent = document.getElementById(idcomponent);
@@ -44,7 +45,7 @@
         let pair = user._.sea;
         //gun.get('forum').get(forumid).get('member').get(pair.pub).put(enc);
         console.log(forumid);
-        console.log(boardtitle, boardcontent);
+        console.log(title, content);
         let genboardid = Gun.text.random();
         gun.get('forum')
             .get(forumid)
@@ -56,6 +57,10 @@
                 content:content,
                 date:timestamp()
             });
+    }
+
+    function btnCancel(e){
+        dispatch('show',false);
     }
 
 </script>
@@ -84,5 +89,6 @@
 
 
     <button on:click={btnSubmit}>Create</button>
+    <button on:click={btnCancel}>Cancel</button>
 
 </div>

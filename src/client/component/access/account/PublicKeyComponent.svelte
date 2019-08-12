@@ -24,4 +24,9 @@
     }
 
 </script>
+<style>
+  label{
+    height:22px;
+  }
+</style>
 <label>Public Key:<input id="{publickey}" bind:value={pub} readonly></label><button on:click={copykey}>Copy</button>

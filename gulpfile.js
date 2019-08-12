@@ -87,7 +87,7 @@ function serve(done){
         done: done,
 	}).on('start', function () {
         //console.log('===================================');
-        console.log('started!');
+        //console.log('started!');
 		// to avoid nodemon being started multiple times
 		// thanks @matthisk
 		if (!started) {
@@ -97,7 +97,7 @@ function serve(done){
         //console.log('started END=========!');
     }).on('restart', function () {
         //console.log('===================================');
-        console.log('restarted!');
+        //console.log('restarted!');
         //cleanscript();
         if(browserSync){
             browserSync.reload();
