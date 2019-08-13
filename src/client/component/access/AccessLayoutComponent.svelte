@@ -12,7 +12,7 @@
     //import ChatMainComponent from "./chat/ChatMainComponent.svelte";
 
     //import DatabaseComponent from "./database/DatabaseComponent.svelte";
-    //import TestAreaComponent from "./gun/TestAreaComponent.svelte";
+    import TestAreaComponent from "./gun/TestAreaComponent.svelte";
 
     //import AccessNavigationComponent from "./AccessNavigationComponent.svelte";
 
@@ -30,11 +30,13 @@
     let blogin = false;
     let bforgot = false;
     export let navmenus = [];
-    let accessview = AccountComponent;
+    let accessview;
+    accessview = AccountComponent;
     //accessview = MessagesComponent;
     //accessview = DatabaseComponent;
     //accessview = ChatMainComponent;
-    accessview = ForumComponent;
+    //accessview = ForumComponent;
+    accessview = TestAreaComponent;
 
     const LoginuUsub = onLogin.subscribe(value => {
         //console.log("login",value);
@@ -65,19 +67,6 @@
         elcomponent = document.getElementById(idcomponent);
         elnav = document.getElementById(idnav);
         elcontext = document.getElementById(idcontext);
-
-        /*
-        //navmenus.push({name:"Test Area",context:"testarea",comp:TestAreaComponent});
-        navmenus.push({name:"Account",context:"account",comp:AccountComponent});
-        navmenus.push({name:"Messages",context:"messages",comp:MessagesComponent});
-        navmenus.push({name:"Chat",context:"chat",comp:ChatMainComponent});
-        navmenus.push({name:"Forum",context:"forum",comp:ForumComponent});
-        //navmenus.push({name:"Database",context:"database",comp:DatabaseComponent});
-        navmenus.push({name:"Admin",context:"admin",comp:AdminComponent});
-        navmenus.push({name:"Logout",context:"logout",comp:LogoutComponent});
-        navmenus=navmenus;
-        */
-
         window.addEventListener('resize',handle_accessmain_resizediv);
     });
 

@@ -62,7 +62,7 @@
         elcomponent = document.getElementById(idcomponent);
         elcontext = document.getElementById(idcontext);
 
-        //navmenus.push({name:"Test Area",context:"testarea",comp:TestAreaComponent});
+        navmenus.push({name:"Test Area",context:"testarea",comp:TestAreaComponent});
         navmenus.push({name:"Account",context:"account",comp:AccountComponent});
         navmenus.push({name:"Messages",context:"messages",comp:MessagesComponent});
         navmenus.push({name:"Chat",context:"chat",comp:ChatMainComponent});

@@ -156,6 +156,17 @@
         });
     }
 
+    async function btnDecryptonce(e){
+        let user = gun.user();
+        //user.get('profile').get('alias').decryptonce();
+
+
+        let to = gun.user('DFzBYa3x28L5M84HAogimYMG8grW_ufWYbCl5Dw3r1M.O_0ik6A-6ZBOTq08n8Z5WBq-QC39ZuN_smSVdGH_-Ko');
+        to.get('profile').get('alias').decryptonce();
+
+    }
+
+
 </script>
 <!--
 <br>KEY: <input bind:value={keyID} />
@@ -167,7 +178,7 @@
 KEY Query: <input bind:value={hashkey} />
 <br><button on:click={btnkeyquery}>Query</button>
 -->
-<br>
+<!--
 <br>
 <button on:click={btnencryptput}>btnencryptput</button>
 <button on:click={btndecryptvalue}>btndecryptvalue</button>
@@ -176,3 +187,6 @@ KEY Query: <input bind:value={hashkey} />
 <br><button on:click={btngrantkey}>btngrantkey</button>
 <button on:click={btnrevokekey}>btnrevokekey</button>
 <button on:click={btndecryptdatauser}>btndecryptdatauser</button>
+-->
+
+<button on:click={btnDecryptonce}> Profile Alias </button>
