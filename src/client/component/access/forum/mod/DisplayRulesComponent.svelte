@@ -5,15 +5,15 @@
 
 </script>
 <style>
-    .adminheader{
+    .rulesheader{
         background-color: black;
     }
-    .admincontent{
+    .rulescontent{
         background-color: gray;
     }
 
 </style>
 <div>
-    <div class="adminheader">Admin</div>
-    <div class="admincontent">List</div>
+    <div class="rulesheader">Rules</div>
+    <div class="rulescontent">List</div>
 </div>

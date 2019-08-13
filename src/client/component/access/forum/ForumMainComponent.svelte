@@ -33,7 +33,8 @@
         let parent = elcontent.parentNode;
         //console.log(parent.clientHeight);
         //elchatmessages.style.height = parent.clientHeight - 44 - 22 - 22 + 'px';
-        elcontent.style.height = parent.clientHeight - 44 + 'px';
+        //elcontent.style.height = parent.clientHeight - 22 + 'px';
+        elcontent.style.height = parent.clientHeight + 'px';
         elcontent.style.width = parent.clientWidth + 'px';
     }
 
@@ -99,7 +100,13 @@
     }
 
 </script>
-<div id="{idcomponent}">
+<style>
+    .forummain{
+        width:100%;
+        height:100%;
+    }
+</style>
+<div id="{idcomponent}" class="forummain">
 
     {#if showforum == false}
         <button on:click={btnCreateForum}> Create Forum </button>

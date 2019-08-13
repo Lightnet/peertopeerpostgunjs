@@ -5,15 +5,17 @@
 
 </script>
 <style>
-    .adminheader{
+    .navheader{
         background-color: black;
     }
-    .admincontent{
+    .navcontent{
         background-color: gray;
     }
 
 </style>
 <div>
-    <div class="adminheader">Admin</div>
-    <div class="admincontent">List</div>
+    <!--<div class="navheader">Rules</div>-->
+    <div class="navcontent">
+        <button>About</button>
+    </div>
 </div>

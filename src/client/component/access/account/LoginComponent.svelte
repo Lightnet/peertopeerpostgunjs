@@ -96,25 +96,40 @@
 </script>
 
 <style>
+    .accessheader{
+        background-color: black;
+    }
 
+    .accessborder{
+        border: 1px;
+        border-style: solid;
+    }
 </style>
 <div id="{idcomponent}">
-    <table>
-        <tr>
-            <td>Alias:</td>
-            <td><input type="text" bind:value={loginid} placeholder="Alias"></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="text" bind:value={password} placeholder="Passphase"></td>
-        </tr><tr>
-            <td>
-                <button on:click={btnregister}>Register</button>
-            </td><td style=" text-align: center;">
-                <button on:click={btnlogin}>Login</button>
-                <button on:click={clickForgot}>Forgot</button>
-            </td>
-        </tr>
+    <table class="accessborder">
+        <tbody>
+            <tr>
+                <td colspan="2" class="accessheader">
+                    <center class="accessheader">Access:</center>
+                </td>
+            </tr>
+            <tr>
+                <td>Alias:</td>
+                <td><input type="text" bind:value={loginid} placeholder="Alias"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="text" bind:value={password} placeholder="Passphase"></td>
+            </tr><tr>
+                <td colspan="2">
+                    <center>
+                        <button on:click={btnlogin}>Login</button>
+                        <button on:click={clickForgot}>Forgot</button>
+                        <button on:click={btnregister}>Register</button>
+                    </center>
+                </td>
+            </tr>
+        </tbody>
     </table>
     
     {#if showModal}

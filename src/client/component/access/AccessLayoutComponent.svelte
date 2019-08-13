@@ -1,23 +1,20 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
-    import AutoSizeDivComponent from "../base/AutoSizeDivComponent.svelte";
-    import LoginComponent from "./account/LoginComponent.svelte";
-    import ForgotComponent from "./account/ForgotComponent.svelte";
+    //import LoginComponent from "./account/LoginComponent.svelte";
+    //import ForgotComponent from "./account/ForgotComponent.svelte";
 
     import AccountComponent from "./account/AccountComponent.svelte";
     import LogoutComponent from "./account/LogoutComponent.svelte";
-    import AdminComponent from "./admin/AdminComponent.svelte";
-    import MessagesComponent from "./messages/MessagesComponent.svelte";
+    //import AdminComponent from "./admin/AdminComponent.svelte";
+    //import MessagesComponent from "./messages/MessagesComponent.svelte";
 
     import ForumComponent from "./forum/ForumMainComponent.svelte";
-    import ChatMainComponent from "./chat/ChatMainComponent.svelte";
+    //import ChatMainComponent from "./chat/ChatMainComponent.svelte";
 
-    import DatabaseComponent from "./database/DatabaseComponent.svelte";
-    import TestAreaComponent from "./gun/TestAreaComponent.svelte";
+    //import DatabaseComponent from "./database/DatabaseComponent.svelte";
+    //import TestAreaComponent from "./gun/TestAreaComponent.svelte";
 
-    import AccessNavigationComponent from "./AccessNavigationComponent.svelte";
-
-    import AccessLayoutComponent from "./AccessLayoutComponent.svelte";
+    //import AccessNavigationComponent from "./AccessNavigationComponent.svelte";
 
     import { generateId } from '../helper/generateid.js';
     import { gun, onLogin } from '../../mjs.js';
@@ -25,12 +22,14 @@
 
     let idcomponent = generateId(20);
     let elcomponent;
+    let idnav = generateId(20);
+    let elnav;
     let idcontext = generateId(20);
     let elcontext;
 
     let blogin = false;
     let bforgot = false;
-    let navmenus = [];
+    export let navmenus = [];
     let accessview = AccountComponent;
     //accessview = MessagesComponent;
     //accessview = DatabaseComponent;
@@ -47,12 +46,16 @@
         if(elcomponent ==null){
             elcomponent = document.getElementById(idcomponent);
         }
+        if(elnav ==null){
+            elnav = document.getElementById(idnav);
+        }
         if(elcontext ==null){
             elcontext = document.getElementById(idcontext);
         }
         if(elcontext !=null){
             let parent = elcomponent.parentNode;
             let h = parent.clientHeight;
+            //elcontext.style.height= (h - 22) + 'px';
             elcontext.style.height= (h - 22) + 'px';
         }
     }
@@ -60,8 +63,10 @@
     onMount(() => {
         //console.log("mount")
         elcomponent = document.getElementById(idcomponent);
+        elnav = document.getElementById(idnav);
         elcontext = document.getElementById(idcontext);
 
+        /*
         //navmenus.push({name:"Test Area",context:"testarea",comp:TestAreaComponent});
         navmenus.push({name:"Account",context:"account",comp:AccountComponent});
         navmenus.push({name:"Messages",context:"messages",comp:MessagesComponent});
@@ -70,8 +75,9 @@
         //navmenus.push({name:"Database",context:"database",comp:DatabaseComponent});
         navmenus.push({name:"Admin",context:"admin",comp:AdminComponent});
         navmenus.push({name:"Logout",context:"logout",comp:LogoutComponent});
+        navmenus=navmenus;
+        */
 
-        handle_accessmain_resizediv();
         window.addEventListener('resize',handle_accessmain_resizediv);
     });
 
@@ -111,28 +117,29 @@
 </script>
 
 <style>
-    .accessmain{
+    .access_submenu{
+        height:22px;
+        width:100%;
+    }
+    .accesslayout{
         height:100%;
         width:100%;
     }
-
-    .accesscontent{
+    .accesslayoutcontext{
         height:100%;
         width:100%;
     }
 </style>
 
-<div id={idcomponent} class="accessmain">
-    {#if blogin}
-        <AccessNavigationComponent></AccessNavigationComponent>
-        <div id="{idcontext}" class="accesscontent">
-            <AccessLayoutComponent navmenus={navmenus}/>
-        </div>
-    {:else}
-        {#if bforgot}
-            <ForgotComponent on:hevent={h_event}></ForgotComponent>
-        {:else}
-            <LoginComponent on:hevent={h_event}></LoginComponent>
+<div id={idcomponent} class="accesslayout">
+    <div id="{idnav}" class="access_submenu">
+        {#each navmenus as menu}    
+            <button class="{menu.comp == accessview ? 'active' : ''}"  on:click="{()=>h_context(menu.comp)}">{menu.name} </button>
+        {/each}
+    </div>
+    <div id="{idcontext}" class="accesslayoutcontext">
+        {#if accessview !=null}
+            <svelte:component this={accessview} on:hevent={hevent}/>
         {/if}
-    {/if}
+    </div>
 </div>

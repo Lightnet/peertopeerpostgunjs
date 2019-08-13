@@ -87,7 +87,6 @@
         </tbody>
     </table>
 
-
     <button on:click={btnSubmit}>Create</button>
     <button on:click={btnCancel}>Cancel</button>
 

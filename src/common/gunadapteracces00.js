@@ -27,57 +27,21 @@
         if(!at.psea){
           at.psea = {own: {}};
         }
+        //console.log(at);
+        //if(!at.sea){ // only add SEA once per instance, on the "at" context.
+          //at.sea = {own: {}};
+          //at.on('in', security, at); // now listen to all input data, acting as a firewall.
+          //at.on('out', signature, at); // and output listeners, to encrypt outgoing data.
+          //at.on('node', each, at);
+        //}
+
         //at.on('in', security, at);
         //at.on('node', each, at);
         this.to.next(at); // make sure to call the "next" middleware adapter.
       });
 
-      Gun.chain.pcreate = function(forumid, publickey, cb, opt){
-        var gun = this, cat = (gun._), root = gun.back(-1);
-        cb = cb || noop;
-        if(cat.ing){
-          cb({err: Gun.log("User is already being created or authenticated!"), wait: true});
-          return gun;
-        }
-        cat.ing = true;
-        opt = opt || {};
-        var act = {}, u;
-        
-        act.a = function(pubs){
 
-        }
-
-        //root.get('~@'+alias).once(act.a);
-
-        return gun;
-      }
-
-      Gun.chain.pauth=function(forumkey, pub, cb, opt){
-        var gun = this, cat = (gun._), root = gun.back(-1);
-        cb = cb || function(){};
-        console.log(cat);
-        var act = {}, u;
-        //cat.psea = {test:"test"};
-        act.a=function(data){
-
-        }
-        
-
-        return gun;
-      }
-
-      Gun.chain.ptoken=function(cb, opt){
-        var gun = this, cat = (gun._), root = gun.back(-1);
-        cb = cb || function(){};
-        console.log(cat);
-        var act = {}, u;
-        //cat.psea = {test:"test"};
-        act.a=function(data){
-
-        }
-
-        return gun;
-      }
+      
 
       /*
       function security(msg){
@@ -185,6 +149,7 @@
         to.next( msg);
       }
       */
+      
     })(USE, './index');
     //})(USE, './index');
 

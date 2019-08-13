@@ -7,17 +7,22 @@
     //const dispatch = createEventDispatcher();
     let idcomponent = generateId(20);
 
-    //onMount(() => {
+    onMount(() => {
         //console.log("mount")
-    //});
+    });
 
     //afterUpdate(() => {
         //console.log("afterUpdate")
     //});
 
-    //onDestroy(() => {
+    onDestroy(() => {
         //console.log("onDestroy")
-    //});
+    });
+
+    function btnToggleAdmin(e){
+        console.log("admin");
+    }
+
 </script>
 
 <style>
@@ -30,4 +35,5 @@
     <button>Access</button>
     <DisplayUser/>
     <PublicKeyComponent></PublicKeyComponent>
+    <button on:click={btnToggleAdmin}>Admin</button>
 </div>
