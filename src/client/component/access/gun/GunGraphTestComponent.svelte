@@ -145,8 +145,8 @@
         gun.get("yEh5TG412ppoqXTm").get('key').encryptput(kvalue);
     }
 
-    async function btndecryptvalue(){
-        gun.get("yEh5TG412ppoqXTm").get('key').decryptvalue(ack=>{
+    async function btndecryptonce(){
+        gun.get("yEh5TG412ppoqXTm").get('key').decryptonce(ack=>{
             console.log(ack);
         });
     }
@@ -158,11 +158,17 @@
 
     async function btnDecryptonce(e){
         let user = gun.user();
+
+        user.get('profile').get('alias').once(ack=>{
+            console.log(ack);
+        });
         //user.get('profile').get('alias').decryptonce();
 
 
         let to = gun.user('DFzBYa3x28L5M84HAogimYMG8grW_ufWYbCl5Dw3r1M.O_0ik6A-6ZBOTq08n8Z5WBq-QC39ZuN_smSVdGH_-Ko');
-        to.get('profile').get('alias').decryptonce();
+        to.get('profile').get('alias').decryptonce(ack=>{
+            console.log(ack);
+        });
 
     }
 
@@ -181,7 +187,7 @@ KEY Query: <input bind:value={hashkey} />
 <!--
 <br>
 <button on:click={btnencryptput}>btnencryptput</button>
-<button on:click={btndecryptvalue}>btndecryptvalue</button>
+<button on:click={btndecryptonce}>btndecryptonce</button>
 <br>Public Key: <input bind:value={publickey} />
 <br>Value: <input bind:value={kvalue} />
 <br><button on:click={btngrantkey}>btngrantkey</button>

@@ -26,7 +26,7 @@
         //console.log(user._.sea);
         let user = gun.user();
         //console.log(profi);
-        user.get('profile').get('alias').decryptvalue(ack=>{
+        user.get('profile').get('alias').decryptonce(ack=>{
             //console.log("???");
             //console.log(ack);
             alias= ack;
@@ -34,19 +34,19 @@
         //},{sharekeydebug:true});
         //,{sharekeytype:"graph"}
 
-        user.get('profile').get('born').decryptvalue(ack=>{
+        user.get('profile').get('born').decryptonce(ack=>{
             //console.log("???");
             //console.log(ack);
             born= ack;
         });
 
-        user.get('profile').get('education').decryptvalue(ack=>{
+        user.get('profile').get('education').decryptonce(ack=>{
             //console.log("???");
             //console.log(ack);
             education= ack;
         });
 
-        user.get('profile').get('skills').decryptvalue(ack=>{
+        user.get('profile').get('skills').decryptonce(ack=>{
             //console.log("???");
             //console.log(ack);
             skills= ack;

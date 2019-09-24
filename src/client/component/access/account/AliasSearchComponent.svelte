@@ -68,6 +68,27 @@
         },{sharekeytype:"path"});
     }
 
+    function btnpastepubkey(){
+        document.execCommand("paste");
+        navigator.permissions.query({name: "clipboard-write"}).then(result => {
+            console.log(result);
+            if (result.state == "granted" || result.state == "prompt") {
+                /* write to the clipboard now */
+                console.log("READ?");
+                navigator.clipboard.readText()
+                .then(text => {
+                    //my code to handle paste
+                    console.log(text);
+                    //$('#inputsearchpublickey').val(text);
+                    publickey = text;
+                })
+                .catch(err => {
+                    console.error('Failed to read clipboard contents: ', err);
+                });
+            }
+        });
+    }
+
 </script>
 
 <style>
@@ -81,7 +102,7 @@
             <button on:click={checkprofile_alias}>Alias Public Key:</button>
         </td>
         <td>
-            <input type="text" bind:value={publickey} on:keyup={inputcheck}> Status: {displaystatus}
+            <input type="text" bind:value={publickey} on:keyup={inputcheck}><button on:click={btnpastepubkey}>Paste Key</button> Status: {displaystatus}
         </td>
     </tr>
 
@@ -122,5 +143,4 @@
     </tr>
     
     </table>
-
 </div>

@@ -4,7 +4,11 @@
     import { onPub } from '../../../mjs.js';
 
     let publickey = generateId(20);
+    let idpublickey = generateId(20);
     let pub = "";
+    let inputwidthsize = 104;
+    let inputwidth = 104;
+    let binputwidth = true;
 
     const onPubUnsubscribe = onPub.subscribe(value => {
 		  //console.log(value);
@@ -21,7 +25,19 @@
       let CodeToCopy = document.getElementById(publickey);
       CodeToCopy.select();
       document.execCommand('copy');
+      console.log(publickey);
+      navigator.clipboard.writeText(pub);
     }
+
+  function btntogglepublickey(){
+    if(binputwidth){
+      binputwidth = false;
+      inputwidthsize = 1;
+    }else{
+      binputwidth = true;
+      inputwidthsize = inputwidth;
+    }
+  }
 
 </script>
 <style>
@@ -29,4 +45,11 @@
     height:22px;
   }
 </style>
-<label>Public Key:<input id="{publickey}" bind:value={pub} readonly></label><button on:click={copykey}>Copy</button>
+<label><button id="{idpublickey}" on:click={btntogglepublickey}>Public Key: </button> 
+<input 
+id="{publickey}" 
+bind:value={pub}
+size="{inputwidthsize}"
+readonly>
+</label>
+<button on:click={copykey}>Copy</button>
