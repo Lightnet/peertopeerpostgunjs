@@ -25,7 +25,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-svelte": "^5.1.0",
     "sirv": "^0.4.2",
-    "svelte": "^3.6.11",
+    "svelte": "^3.49.0",
     "uuid": "^3.3.2"
   }
 }
